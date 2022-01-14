@@ -21,5 +21,15 @@ const addTransactionIntoDom = (transaction) => {
      transactionsUl.append(li)
 }
 
-addTransactionIntoDom(dummyTransaction[0])
-addTransactionIntoDom(dummyTransaction[1])
+const updateBalanceValues = () => {
+     const transactionsAmounts = dummyTransaction.map((value) => value.amount)
+     console.log(transactionsAmounts);
+}
+
+const init = () => {
+     dummyTransaction.forEach(addTransactionIntoDom)
+     updateBalanceValues()
+}
+
+init()
+
