@@ -9,7 +9,7 @@
 }
 
 body {
-  background-color: #f7f7f7;
+  background-color: #292a30;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,6 +30,7 @@ body {
   border-right-color: #673ab7;
   border-top-color: #9c27b0;
   border-bottom-color: #673ab7;
+  background: #f3f3f3;
 }
 
 h1 {
@@ -38,7 +39,12 @@ h1 {
   color: #2e75cc;
   padding: .8em 0;
 }
-
+h2 {
+  background-image: linear-gradient(to right, #e91e63, #673ab7);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
 h3 {
   margin: 40px 0 10px;
   padding-bottom: 10px;
@@ -90,7 +96,7 @@ h4 {
 }
 
 .money.minus {
-  color: #c0392b;
+  color: #e74c3c;
 }
 
 label {
@@ -110,7 +116,7 @@ input[type='number'] {
 
 .btn {
   cursor: pointer;
-  background-color: #9c88ff;
+  background-color: #673ab7;
   box-shadow: var(--box-shadow);
   color: #fff;
   border: 0;
@@ -119,6 +125,9 @@ input[type='number'] {
   margin: 10px 0 30px;
   padding: 10px;
   width: 100%;
+}
+.btn:hover {
+  opacity: .9;
 }
 
 .btn:focus,
@@ -148,23 +157,23 @@ input[type='number'] {
 }
 
 .transactions li.minus {
-  border-right: 5px solid #c0392b;
+  border-right: 5px solid #e74c3c;
 }
 
 .delete-btn {
   cursor: pointer;
   background-color: #e74c3c;
   border: 0;
+  width: 20px;
+  height: 20px;
   color: #fff;
-  font-size: 20px;
-  line-height: 20px;
-  padding: 2px 5px;
+  font-size: 1em;
   position: absolute;
   top: 50%;
   left: 0;
   transform: translate(-100%, -50%);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity .3s ease;
 }
 
 .transactions li:hover .delete-btn {
