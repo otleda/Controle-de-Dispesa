@@ -28,16 +28,34 @@ com map(), passando o reduce(), para somar todos os valores e passando toFIxed()
 para acrescentar duas casas decimais.
 */
 const updateBalanceValues = () => {
-     const valueAmounts = dummyTransaction.map(value => value.amount)
+     const valueAmounts = dummyTransaction
+          .map(value => value.amount)
 
-     console.log(valueAmounts);
-     const total = valueAmounts.reduce((accumulator, value) => accumulator + value, 0).toFixed(2)
+     const currentValue = valueAmounts
+          .reduce((accumulator, value) => accumulator + value, 0)
+          .toFixed(2)
 
-     console.log(total);
+     const income = valueAmounts
+          .filter((value) => value > 0)
+          .reduce((accumulator, value) => accumulator + value, 0)
+          .toFixed(2)
+     
+     const expense = valueAmounts
+          .filter((value) => value < 0)
+          .reduce((accumulator, value) => accumulator + value, 0)
+          .toFixed(2)
+
+     console.log(`
+          Despesas ${expense}, 
+          Receita ${income}, 
+          Saldo atual ${currentValue}
+          `);
 }
 
 const init = () => {
-     dummyTransaction.forEach(addTransactionIntoDom)
+     dummyTransaction
+          .forEach(addTransactionIntoDom)
+
      updateBalanceValues()
 }
 
