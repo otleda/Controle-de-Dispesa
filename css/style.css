@@ -62,18 +62,16 @@ h4 {
 }
 
 .inc-exp-container {
-  background: linear-gradient(212deg,white, #f7f7f7);
-  box-shadow: var(--box-shadow);
-  padding: 20px;
   display: flex;
-  justify-content: space-between;
-  margin: 20px 0;
+  padding: 1em;
   border-radius: 5px;
   border: 1px solid;
   border-left-color: #9c27b0;
   border-right-color: #673ab7;
   border-top-color: #9c27b0;
   border-bottom-color: #673ab7;
+  background: linear-gradient(212deg,white, #f7f7f7);
+  box-shadow: var(--box-shadow);
 }
 
 .inc-exp-container > div {
@@ -86,9 +84,9 @@ h4 {
 }
 
 .money {
-  font-size: 20px;
+  font-size: 1em;
   letter-spacing: 1px;
-  margin: 5px 0;
+  margin: 1em 0;
 }
 
 .money.plus {
@@ -138,18 +136,27 @@ input[type='number'] {
 .transactions {
   list-style-type: none;
   padding: 0;
-  margin-bottom: 40px;
+  overflow-y: scroll;
+  height: 300px;
+  padding: 1.3em;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+}
+
+.transactions::-webkit-scrollbar {
+  width: 10px;
 }
 
 .transactions li {
-  background-color: #fff;
-  box-shadow: var(--box-shadow);
-  color: #333;
   display: flex;
   justify-content: space-between;
   position: relative;
-  padding: 10px;
-  margin: 10px 0;
+  padding: .8em;
+  margin: .8em 0;
+  color: #333;
+  border-radius: 5px;
+  box-shadow: var(--box-shadow);
+  background-color: #fff;
 }
 
 .transactions li.plus {

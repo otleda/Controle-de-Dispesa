@@ -1,10 +1,19 @@
-const transactionsUl = document.querySelector('#transactions')
+const transactionsEl = document.querySelector('#transactions')
+const currentValueDisplayEl = document.querySelector('#balance')
+const incomeDisplayEl = document.querySelector('#money-plus')
+const expenseDisplayEl = document.querySelector('#money-minus')
+
+console.log({currentValueDisplayEl, incomeDisplayEl, expenseDisplayEl})
 
 const dummyTransaction = [ 
-     {id: 1, name: 'Violao folk', amount: - 835},
+     {id: 1, name: 'Violao folk', amount: - 900},
      {id: 2, name: 'Salario', amount: 3500},
      {id: 3, name: 'Freela', amount: 250},
-     {id: 4, name: 'Mercado', amount: - 150},
+     {id: 4, name: 'Jobs Design', amount: 150},
+     {id: 5, name: 'Mercado', amount: - 150},
+     {id: 6, name: 'Jobs Developer', amount: 1150},
+     {id: 7, name: '01-Pcl notbook', amount: - 250},
+     {id: 8, name: 'Academia', amount: - 100},
 ];
 
 const addTransactionIntoDom = (value) => {
@@ -20,7 +29,7 @@ const addTransactionIntoDom = (value) => {
      li.innerHTML = `
           ${value.name}<span>${operator} R$${removeOperatoAmount}</span><button class="delete-btn">x</button>
      `
-     transactionsUl.append(li)
+     transactionsEl.append(li)
 }
 
 /*Pegando valores da chave amount de dentro da array de obj dummyTransaction[],
@@ -45,6 +54,11 @@ const updateBalanceValues = () => {
           .reduce((accumulator, value) => accumulator + value, 0)
           .toFixed(2)
 
+     //add os valores nos display da aplicacao
+     currentValueDisplayEl.textContent = `R$ ${currentValue}`
+     incomeDisplayEl.textContent = `R$ ${income}`
+     expenseDisplayEl.textContent = `R$ ${expense}`
+
      console.log(`
           Despesas ${expense}, 
           Receita ${income}, 
@@ -58,6 +72,5 @@ const init = () => {
 
      updateBalanceValues()
 }
-
 init()
 
