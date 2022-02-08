@@ -6,19 +6,18 @@ const formEl = document.querySelector('#form')
 const impuTextValueEL = document.querySelector('#text')
 const imputAmountValueEl = document.querySelector('#amount')
 
-
+// Google Local Storage
 const localStorageTransaction = JSON.parse(localStorage.getItem('transactions'))
-let transactions = localStorage
-     .getItem('transactions') !== null ? localStorageTransaction : []
+let transactions = localStorage.getItem('transactions') !== null ? localStorageTransaction : []
 
-
+// Delete Values to List
 const removeValue = ID => {
-     transactions = transactions
-          .filter(transaction => transaction.id != ID)
+     transactions = transactions.filter(transaction => transaction.id != ID)
      updateLocalStorage()
      init()
 }
 
+// Add value to DOM
 const addTransactionIntoDom = (value) => {
      const operator = value.amount < 0 ? '-' : ''
      const removeOperatoAmount = Math.abs(value.amount)
@@ -35,23 +34,42 @@ const addTransactionIntoDom = (value) => {
      transactionsUl.append(li)
 }
 
-const updateBalanceValues = () => {
-     const valueAmounts = transactions.map(value => value.amount)
+// Get currentValues
+const getCurrentValue = valueAmounts => valueAmounts
+          .reduce((accumulator, value) => accumulator + value, 0)
+          .toFixed(2)
 
-     const currentValue = valueAmounts
-          .reduce((accumulator, value) => accumulator + value, 0).toFixed(2)
 
-     const income = valueAmounts
+// Get Incomes
+const getIncome = (valueAmounts) => {
+     return valueAmounts
           .filter((value) => value > 0)
-          .reduce((accumulator, value) => accumulator + value, 0).toFixed(2)
+          .reduce((accumulator, value) => accumulator + value, 0)
+          .toFixed(2)
+}
 
-     const expense = Math.abs(valueAmounts.filter((value) => value < 0)
+// Get Expenses
+const getExpenses = (valueAmounts) => {
+    return Math.abs(valueAmounts.filter((value) => value < 0)
           .reduce((accumulator, value) => accumulator + value, 0)).toFixed(2)
+}
 
-
+// Add to Display
+const addToDisplay = (currentValue , income, expense) => {
      currentValueDisplayEl.textContent = `R$ ${currentValue}`
      incomeDisplayEl.textContent = `R$ ${income}`
      expenseDisplayEl.textContent = `R$ ${expense}`
+}
+   
+// Updating the values in the DOM
+const updateBalanceValues = () => {
+     const valueAmounts = transactions.map(value => value.amount)
+
+     const currentValue = getCurrentValue(valueAmounts)
+     const income = getIncome(valueAmounts)
+     const expense = getExpenses(valueAmounts)
+
+     addToDisplay(currentValue, income, expense)
 }
 
 const init = () => {
@@ -59,38 +77,51 @@ const init = () => {
      transactions.forEach(addTransactionIntoDom)
      updateBalanceValues()
 }
-
 init()
 
+// Updating the values in the LocalStorage
 const updateLocalStorage = () => {
      localStorage.setItem('transactions', JSON.stringify(transactions))
 }
 
+// Generating random ID
 const generatorID = () => Math.round(Math.random() * 1000)
 
-formEl.addEventListener('submit', event => {
+// Adding values to Array
+const addTOTransactionsArray = (name, amount) => {
+     transactions.push({ 
+          id: generatorID(), 
+          name: name,  
+          amount: Number(amount)
+     })
+}
+
+// Cleared form values
+const cleanValueInputs = () => {
+     impuTextValueEL.value = ''
+     imputAmountValueEl.value = ''
+}
+
+// Submitting the form
+const formSubmit = event => {
      event.preventDefault()
 
-     const imputTextValue = impuTextValueEL.value.trim()
-     const imputAmountValue = imputAmountValueEl.value.trim()
-
-     if(imputTextValue === ''|| imputAmountValue === '') {
+     const transactionName = impuTextValueEL.value.trim()
+     const transactionAmount = imputAmountValueEl.value.trim()
+     const haveSomeEmptyImput =  transactionName === ''|| transactionAmount === ''
+     
+     if(haveSomeEmptyImput) {
           alert('Por favor inserir os valores nos campos')
           return
      }
-     const transaction = { 
-          id: generatorID(), 
-          name: imputTextValue, 
-          amount: Number(imputAmountValue)
-     }
-     
-     transactions.push(transaction)
+
+     addTOTransactionsArray(transactionName, transactionAmount)
      init()
      updateLocalStorage()
+     cleanValueInputs()
+}
 
-     impuTextValueEL.value = ''
-     imputAmountValueEl.value = ''
-})
+formEl.addEventListener('submit', formSubmit)
 
 
 
