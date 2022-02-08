@@ -18,18 +18,17 @@ const removeValue = ID => {
 }
 
 // Add value to DOM
-const addTransactionIntoDom = (value) => {
-     const operator = value.amount < 0 ? '-' : ''
-     const removeOperatoAmount = Math.abs(value.amount)
-     const cssClass = value.amount < 0 ? 'minus' : 'plus'
+const addTransactionIntoDom = ({amount, name, id}) => {
+     const operator = amount < 0 ? '-' : ''
+     const removeOperatoAmount = Math.abs(amount)
+     const cssClass = amount < 0 ? 'minus' : 'plus'
      const li = document.createElement('li')
+     
      li.classList.add(cssClass)
 
      li.innerHTML = `
-          ${value.name}<span>${operator} R$ ${removeOperatoAmount}</span>
-          <button class="delete-btn" onClick="removeValue(${value.id})">
-               x
-          </button>
+          ${name}<span>${operator} R$ ${removeOperatoAmount}</span>
+          <button class="delete-btn" onClick="removeValue(${id})">x</button>
      ` 
      transactionsUl.append(li)
 }
@@ -39,20 +38,17 @@ const getCurrentValue = valueAmounts => valueAmounts
           .reduce((accumulator, value) => accumulator + value, 0)
           .toFixed(2)
 
-
 // Get Incomes
-const getIncome = (valueAmounts) => {
-     return valueAmounts
+const getIncome = valueAmounts => valueAmounts
           .filter((value) => value > 0)
           .reduce((accumulator, value) => accumulator + value, 0)
           .toFixed(2)
-}
 
 // Get Expenses
-const getExpenses = (valueAmounts) => {
-    return Math.abs(valueAmounts.filter((value) => value < 0)
-          .reduce((accumulator, value) => accumulator + value, 0)).toFixed(2)
-}
+const getExpenses = (valueAmounts) => Math.abs(valueAmounts
+     .filter((value) => value < 0)
+          .reduce((accumulator, value) => accumulator + value, 0))
+          .toFixed(2)
 
 // Add to Display
 const addToDisplay = (currentValue , income, expense) => {
@@ -63,7 +59,7 @@ const addToDisplay = (currentValue , income, expense) => {
    
 // Updating the values in the DOM
 const updateBalanceValues = () => {
-     const valueAmounts = transactions.map(value => value.amount)
+     const valueAmounts = transactions.map(({amount}) => amount)
 
      const currentValue = getCurrentValue(valueAmounts)
      const income = getIncome(valueAmounts)
