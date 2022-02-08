@@ -6,26 +6,17 @@ const formEl = document.querySelector('#form')
 const impuTextValueEL = document.querySelector('#text')
 const imputAmountValueEl = document.querySelector('#amount')
 
-// let transactions = [ 
-//      {id: 1, name: 'Violao folk', amount: - 900},
-//      {id: 2, name: 'Salario', amount: 7500},
-//      {id: 3, name: 'Freela', amount: 250},   
-//      {id: 4, name: 'Jobs Design', amount: 150},
-//      {id: 5, name: 'Mercado', amount: - 150},
-//      {id: 6, name: 'Jobs Developer', amount: 150},
-//      {id: 7, name: 'notbook', amount: - 1250},
-//      {id: 8, name: 'Academia', amount: - 100},
-// ]
 
 const localStorageTransaction = JSON.parse(localStorage.getItem('transactions'))
-let transactions = localStorage.getItem('transactions') !== null ? localStorageTransaction : []
+let transactions = localStorage
+     .getItem('transactions') !== null ? localStorageTransaction : []
 
 
 const removeValue = ID => {
-     transactions = transactions.filter(transaction => transaction.id != ID)
-
-     console.log(transactions);
-     init() 
+     transactions = transactions
+          .filter(transaction => transaction.id != ID)
+     updateLocalStorage()
+     init()
 }
 
 const addTransactionIntoDom = (value) => {
@@ -47,9 +38,15 @@ const addTransactionIntoDom = (value) => {
 const updateBalanceValues = () => {
      const valueAmounts = transactions.map(value => value.amount)
 
-     const currentValue = valueAmounts.reduce((accumulator, value) => accumulator + value, 0).toFixed(2)
-     const income = valueAmounts.filter((value) => value > 0).reduce((accumulator, value) => accumulator + value, 0).toFixed(2)
-     const expense = Math.abs(valueAmounts.filter((value) => value < 0).reduce((accumulator, value) => accumulator + value, 0)).toFixed(2)
+     const currentValue = valueAmounts
+          .reduce((accumulator, value) => accumulator + value, 0).toFixed(2)
+
+     const income = valueAmounts
+          .filter((value) => value > 0)
+          .reduce((accumulator, value) => accumulator + value, 0).toFixed(2)
+
+     const expense = Math.abs(valueAmounts.filter((value) => value < 0)
+          .reduce((accumulator, value) => accumulator + value, 0)).toFixed(2)
 
 
      currentValueDisplayEl.textContent = `R$ ${currentValue}`
@@ -62,7 +59,12 @@ const init = () => {
      transactions.forEach(addTransactionIntoDom)
      updateBalanceValues()
 }
+
 init()
+
+const updateLocalStorage = () => {
+     localStorage.setItem('transactions', JSON.stringify(transactions))
+}
 
 const generatorID = () => Math.round(Math.random() * 1000)
 
@@ -84,6 +86,8 @@ formEl.addEventListener('submit', event => {
      
      transactions.push(transaction)
      init()
+     updateLocalStorage()
+
      impuTextValueEL.value = ''
      imputAmountValueEl.value = ''
 })

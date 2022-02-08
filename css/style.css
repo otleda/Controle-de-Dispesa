@@ -136,7 +136,7 @@ input[type='number'] {
     list-style-type: none;
     padding: 0;
     overflow-y: scroll;
-    height: 300px;
+    height: 200px;
     padding: 1.3em;
     scroll-behavior: smooth;
     scrollbar-width: thin;
